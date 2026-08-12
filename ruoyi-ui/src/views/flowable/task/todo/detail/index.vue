@@ -11,6 +11,14 @@
         <!--表单信息-->
         <el-tab-pane label="表单信息" name="1">
           <el-col :span="16" :offset="4">
+            <div v-if="approvalData.approvalSubject" class="approval-message">
+              <h3>{{ approvalData.approvalSubject }}</h3>
+              <div class="approval-content">{{ approvalData.approvalContent }}</div>
+              <div v-if="approvalData.approvalAttachments" class="approval-meta">
+                <strong>附件：</strong><file-upload v-model="approvalData.approvalAttachments" disabled />
+              </div>
+              <div v-if="approvalData.approvalRemark" class="approval-meta"><strong>备注：</strong>{{ approvalData.approvalRemark }}</div>
+            </div>
             <v-form-render ref="vFormRef"/>
             <div style="margin-left:10%;margin-bottom: 20px;font-size: 14px;">
               <el-button type="primary" @click="handleComplete">审 批</el-button>
@@ -188,7 +196,8 @@ export default {
       taskName: null, // 任务节点
       startUser: null, // 发起人信息,
       multiInstanceVars: '', // 会签节点
-      formJson:{}
+      formJson:{},
+      approvalData: {}
     };
   },
   created() {
@@ -270,6 +279,7 @@ export default {
       if (taskId) {
         // 提交流程申请时填写的表单存入了流程变量中后续任务处理时需要展示
         flowTaskForm({taskId: taskId}).then(res => {
+          this.approvalData = res.data;
           // 回显表单
           this.$refs.vFormRef.setFormJson(res.data.formJson);
           this.formJson = res.data.formJson;
@@ -429,6 +439,13 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.approval-message { margin-bottom: 24px; padding: 24px 28px; color: #292929; background: #f5f5f5; border-left: 4px solid #444; }
+.approval-message h3 { margin: 0 0 18px; font-size: 20px; }
+.approval-content { min-height: 100px; line-height: 1.9; white-space: pre-wrap; }
+.approval-meta { margin-top: 18px; padding-top: 14px; border-top: 1px solid #d8d8d8; line-height: 1.7; }
+</style>
 <style lang="scss" scoped>
 .test-form {
   margin: 15px auto;

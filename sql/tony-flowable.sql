@@ -91,6 +91,10 @@ INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, `path`, componen
 INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, `path`, component, query, route_name, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES(2046, '流程监听删除', 2042, 4, '#', '', NULL, NULL, 1, 0, 'F', '0', '0', 'system:listener:remove', '#', 'admin', '2022-12-25 11:44:16', '', NULL, '');
 INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, `path`, component, query, route_name, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES(2047, '流程监听导出', 2042, 5, '#', '', NULL, NULL, 1, 0, 'F', '0', '0', 'system:listener:export', '#', 'admin', '2022-12-25 11:44:16', '', NULL, '');
 
+-- 普通用户角色可发起、查看并办理流程任务。
+INSERT IGNORE INTO sys_role_menu (role_id, menu_id) VALUES
+(2, 2023), (2, 2024), (2, 2025), (2, 2026);
+
 -- 流程相关字段表信息
 INSERT INTO sys_dict_type (dict_id, dict_name, dict_type, status, create_by, create_time, update_by, update_time, remark) VALUES(100, '表达式类型', 'exp_data_type', '0', 'admin', '2024-03-12 09:03:02', '', NULL, NULL);
 INSERT INTO sys_dict_type (dict_id, dict_name, dict_type, status, create_by, create_time, update_by, update_time, remark) VALUES(102, '监听类型', 'sys_listener_type', '0', 'admin', '2022-12-18 22:03:07', '', NULL, NULL);

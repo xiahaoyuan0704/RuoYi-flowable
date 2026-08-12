@@ -196,6 +196,14 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
             SysUser sysUser = SecurityUtils.getLoginUser().getUser();
             identityService.setAuthenticatedUserId(sysUser.getUserId().toString());
             variables.put(ProcessConstants.PROCESS_INITIATOR, sysUser.getUserId());
+            // 预置审批流程使用固定业务账号。前端无需暴露人员ID，管理员仍可在用户管理中维护账号资料。
+            putUserIdIfAbsent(variables, "costControlDirectorUserId", "cost_director");
+            putUserIdIfAbsent(variables, "projectManagerUserId", "project_manager");
+            putUserIdIfAbsent(variables, "departmentManagerUserId", "department_manager");
+            putUserIdIfAbsent(variables, "technicalDepartmentLeaderUserId", "technical_leader");
+            putUserIdIfAbsent(variables, "handlerUserId", "handler");
+            putUserIdIfAbsent(variables, "liuQunUserId", "liuqun");
+            putUserIdIfAbsent(variables, "zhengXiangfengUserId", "zhengxiangfeng");
 
             // 流程发起时 跳过发起人节点
             ProcessInstance processInstance = runtimeService.startProcessInstanceById(procDefId, variables);
@@ -210,6 +218,17 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
             e.printStackTrace();
             return AjaxResult.error("流程启动错误");
         }
+    }
+
+    private void putUserIdIfAbsent(Map<String, Object> variables, String variableName, String userName) {
+        if (variables.containsKey(variableName)) {
+            return;
+        }
+        SysUser user = sysUserService.selectUserByUserName(userName);
+        if (Objects.isNull(user)) {
+            throw new IllegalStateException("流程办理用户不存在，请先创建账号：" + userName);
+        }
+        variables.put(variableName, user.getUserId().toString());
     }
 
 

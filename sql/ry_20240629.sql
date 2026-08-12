@@ -67,6 +67,13 @@ create table sys_user (
 -- ----------------------------
 insert into sys_user values(1,  103, 'admin', '系统管理员', '00', 'admin@example.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '系统管理员');
 insert into sys_user values(2,  105, 'ry',    '流程测试员', '00', 'tester@example.com', '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '流程测试员');
+insert into sys_user values(110, 105, 'cost_director', '费控主任', '00', 'cost@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '流程办理账号');
+insert into sys_user values(111, 104, 'project_manager', '项目经理', '00', 'project@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '流程办理账号');
+insert into sys_user values(112, 106, 'department_manager', '部门经理', '00', 'department@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '流程办理账号');
+insert into sys_user values(113, 103, 'technical_leader', '技术部门负责人', '00', 'technical@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '流程办理账号');
+insert into sys_user values(114, 108, 'handler', '经办人', '00', 'handler@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '流程办理账号');
+insert into sys_user values(115, 107, 'liuqun', '刘群', '00', 'liuqun@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '抄送阅知账号');
+insert into sys_user values(116, 107, 'zhengxiangfeng', '郑向峰', '00', 'zhengxiangfeng@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '抄送阅知账号');
 
 
 -- ----------------------------
@@ -275,6 +282,13 @@ create table sys_user_role (
 -- ----------------------------
 insert into sys_user_role values ('1', '1');
 insert into sys_user_role values ('2', '2');
+insert into sys_user_role values ('110', '2');
+insert into sys_user_role values ('111', '2');
+insert into sys_user_role values ('112', '2');
+insert into sys_user_role values ('113', '2');
+insert into sys_user_role values ('114', '2');
+insert into sys_user_role values ('115', '2');
+insert into sys_user_role values ('116', '2');
 
 
 -- ----------------------------

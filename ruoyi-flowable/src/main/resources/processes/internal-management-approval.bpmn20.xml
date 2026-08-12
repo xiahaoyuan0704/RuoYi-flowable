@@ -6,7 +6,7 @@
              xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
              xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
              targetNamespace="http://ruoyi.vip/flowable">
-  <process id="internalManagementApproval" name="内部管理审批流程" isExecutable="true">
+  <process id="internalManagementApproval" name="电网项目管理部内部管理流程审批表" isExecutable="true">
     <documentation>发起人提交后，由费控主任、项目经理和部门经理并行审批；三人全部完成后抄送刘群和郑向峰。</documentation>
     <startEvent id="start" name="开始"/>
     <userTask id="initiatorSubmit" name="发起人" flowable:assignee="${initiator}" flowable:userType="assignee"/>

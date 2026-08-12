@@ -1114,8 +1114,22 @@ public class FlowTaskServiceImpl extends FlowServiceFactory implements IFlowTask
             parameters = taskService.getVariables(taskId);
         }
         JSONObject oldVariables = JSONObject.parseObject(JSON.toJSONString(parameters.get("formJson")));
+        if (Objects.isNull(oldVariables)) {
+            oldVariables = new JSONObject();
+            oldVariables.put("widgetList", new ArrayList<>());
+            JSONObject formConfig = new JSONObject();
+            formConfig.put("modelName", "formData");
+            formConfig.put("refName", "vForm");
+            formConfig.put("rulesName", "rules");
+            formConfig.put("labelPosition", "left");
+            formConfig.put("labelWidth", 100);
+            oldVariables.put("formConfig", formConfig);
+        }
         List<JSONObject> oldFields = JSON.parseObject(JSON.toJSONString(oldVariables.get("widgetList")), new TypeReference<List<JSONObject>>() {
         });
+        if (Objects.isNull(oldFields)) {
+            oldFields = new ArrayList<>();
+        }
         // 设置已填写的表单为禁用状态
         for (JSONObject oldField : oldFields) {
             JSONObject options = oldField.getJSONObject("options");

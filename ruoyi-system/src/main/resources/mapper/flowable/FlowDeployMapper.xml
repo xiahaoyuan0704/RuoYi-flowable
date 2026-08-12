@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT
             rp.id_ as id,
             rp.deployment_id_ as deploymentId,
-            rd.name_ as name,
+            rp.name_ as name,
             rd.category_ as category,
             rp.key_ as flowKey,
             rp.version_ as version,
@@ -20,8 +20,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             act_re_procdef rp
                 LEFT JOIN act_re_deployment rd ON rp.deployment_id_ = rd.id_
         <where>
+            rp.key_ in ('internalManagementApproval', 'resourceRequestApproval')
             <if test="name != null and name != ''">
-               and rd.name_ like concat('%', #{name}, '%')
+               and rp.name_ like concat('%', #{name}, '%')
             </if>
         </where>
         order by rd.deploy_time_ desc

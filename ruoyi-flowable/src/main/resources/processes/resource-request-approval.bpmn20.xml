@@ -2,7 +2,7 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:flowable="http://flowable.org/bpmn"
              xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
              xmlns:di="http://www.omg.org/spec/DD/20100524/DI" targetNamespace="http://ruoyi.vip/flowable">
-  <process id="resourceRequestApproval" name="提资申请流程" isExecutable="true">
+  <process id="resourceRequestApproval" name="电网项目管理部提资流程审批表" isExecutable="true">
     <documentation>提资人提交并经技术部门负责人审批后，费控主任和项目经理并行办理；费控主任分支继续转经办人，两个分支完成后抄送刘群和郑向峰。</documentation>
     <startEvent id="start" name="开始"/>
     <userTask id="requesterSubmit" name="提资人" flowable:assignee="${initiator}" flowable:userType="assignee"/>
