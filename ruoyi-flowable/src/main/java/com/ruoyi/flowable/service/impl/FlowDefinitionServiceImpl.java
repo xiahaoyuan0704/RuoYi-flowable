@@ -199,6 +199,8 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
             SysUser sysUser = SecurityUtils.getLoginUser().getUser();
             identityService.setAuthenticatedUserId(sysUser.getUserId().toString());
             variables.put(ProcessConstants.PROCESS_INITIATOR, sysUser.getUserId());
+            // 历史动态表单使用 INITIATOR，内置 BPMN 使用 initiator；同时写入以兼容两种定义。
+            variables.put("initiator", sysUser.getUserId().toString());
             // 预置审批流程使用固定业务账号，只校验当前流程实际需要的人员。
             putUserIdIfAbsent(variables, "costControlDirectorUserId", "cost_director", "费控主任");
             putUserIdIfAbsent(variables, "projectManagerUserId", "project_manager", "项目经理");
