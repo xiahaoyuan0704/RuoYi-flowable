@@ -817,13 +817,12 @@ public class FlowTaskServiceImpl extends FlowServiceFactory implements IFlowTask
             }
             map.put("flowList", hisFlowList);
         }
-        // 第一次申请获取初始化表单
+        // 动态表单流程返回部署表单；内置审批流程直接使用流程变量展示审批内容，允许未绑定部署表单。
         if (StringUtils.isNotBlank(deployId)) {
             SysForm sysForm = sysInstanceFormService.selectSysDeployFormByDeployId(deployId);
-            if (Objects.isNull(sysForm)) {
-                return AjaxResult.error("请先配置流程表单");
+            if (Objects.nonNull(sysForm)) {
+                map.put("formData", JSONObject.parseObject(sysForm.getFormContent()));
             }
-            map.put("formData", JSONObject.parseObject(sysForm.getFormContent()));
         }
         return AjaxResult.success(map);
     }
