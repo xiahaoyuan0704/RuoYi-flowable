@@ -11,6 +11,8 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  color: #252525;
+  background: #f1f1f1;
 }
 
 label {
@@ -122,6 +124,39 @@ aside {
 //main-container全局样式
 .app-container {
   padding: 20px;
+  background: #f7f7f7;
+  min-height: calc(100vh - 84px);
+}
+
+// 黑白灰业务主题：弱化装饰色，强化信息层级与表格边界。
+.el-card,
+.el-dialog,
+.el-table,
+.el-input__inner,
+.el-textarea__inner {
+  border-color: #d4d4d4;
+}
+
+.el-table th {
+  color: #333;
+  background: #ededed !important;
+}
+
+.el-table--enable-row-hover .el-table__body tr:hover > td {
+  background: #f0f0f0 !important;
+}
+
+.el-button--primary,
+.el-button--success {
+  color: #fff;
+  background: #303030;
+  border-color: #303030;
+}
+
+.el-button--primary:hover,
+.el-button--success:hover {
+  background: #555;
+  border-color: #555;
 }
 
 .components-container {

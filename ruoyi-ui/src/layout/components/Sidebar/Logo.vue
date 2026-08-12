@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import logoImg from '@/assets/logo/logo.png'
 import variables from '@/assets/styles/variables.scss'
 
 export default {
@@ -27,7 +26,7 @@ export default {
   },
   computed: {
     variables() {
-      return variables;
+      return variables
     },
     sideTheme() {
       return this.$store.state.settings.sideTheme
@@ -36,7 +35,7 @@ export default {
   data() {
     return {
       title: process.env.VUE_APP_TITLE,
-      logo: logoImg
+      logo: null
     }
   }
 }
@@ -57,7 +56,8 @@ export default {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: #2b2f3a;
+  background: #151515;
+  border-bottom: 1px solid #303030;
   text-align: center;
   overflow: hidden;
 
