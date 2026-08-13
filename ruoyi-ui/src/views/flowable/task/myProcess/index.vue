@@ -53,12 +53,6 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="流程编号" align="center" prop="procInsId" :show-overflow-tooltip="true"/>
       <el-table-column label="流程名称" align="center" prop="procDefName" :show-overflow-tooltip="true"/>
-      <el-table-column label="流程类别" align="center" prop="category" width="100px" />
-      <el-table-column label="流程版本" align="center" width="80px">
-        <template slot-scope="scope">
-          <el-tag size="medium" >v{{ scope.row.procDefVersion }}</el-tag>
-        </template>
-      </el-table-column>
       <el-table-column label="提交时间" align="center" prop="createTime" width="180"/>
       <el-table-column label="流程状态" align="center" width="100">
         <template slot-scope="scope">
