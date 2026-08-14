@@ -714,12 +714,12 @@ create table gen_table_column (
   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
 
--- 精简非流程业务菜单。保留系统管理中的用户、角色、部门、岗位，以及流程管理和任务管理。
+-- 精简非流程业务菜单。系统管理仅保留用户和角色；流程管理由后续脚本仅保留流程定义。
 DROP TEMPORARY TABLE IF EXISTS obsolete_menu_ids;
 CREATE TEMPORARY TABLE obsolete_menu_ids (menu_id BIGINT PRIMARY KEY);
 INSERT IGNORE INTO obsolete_menu_ids (menu_id)
 WITH RECURSIVE obsolete_menu AS (
-  SELECT menu_id FROM sys_menu WHERE menu_id IN (2, 3, 4, 102, 105, 106, 107)
+  SELECT menu_id FROM sys_menu WHERE menu_id IN (2, 3, 4, 102, 103, 104, 105, 106, 107, 108)
   UNION ALL
   SELECT child.menu_id FROM sys_menu child INNER JOIN obsolete_menu parent ON child.parent_id = parent.menu_id
 )

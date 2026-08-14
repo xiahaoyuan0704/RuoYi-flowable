@@ -53,7 +53,7 @@ export default {
       processKey: '',
       processName: '流程审批表',
       submitting: false,
-      allowedFileTypes: ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'pdf', 'png', 'jpg', 'jpeg', 'zip', 'rar'],
+      allowedFileTypes: ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'pdf', 'dwg', 'png', 'jpg', 'jpeg', 'zip', 'rar'],
       form: {
         subject: '',
         content: '',

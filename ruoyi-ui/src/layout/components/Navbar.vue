@@ -17,11 +17,8 @@
 
       </template>
 
-      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
-        <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
-        </div>
+      <el-dropdown class="account-container right-menu-item hover-effect" trigger="click">
+        <span class="account-trigger">账户 <i class="el-icon-arrow-down" /></span>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/user/profile">
             <el-dropdown-item>个人中心</el-dropdown-item>
@@ -59,7 +56,6 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar',
       'device'
     ]),
     setting: {
@@ -160,25 +156,16 @@ export default {
       }
     }
 
-    .avatar-container {
-      margin-right: 30px;
+    .account-container {
+      margin-right: 16px;
 
-      .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
+      .account-trigger {
+        cursor: pointer;
+        color: #444;
+        font-size: 14px;
 
-        .user-avatar {
-          cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
-        }
-
-        .el-icon-caret-bottom {
-          cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
+        i {
+          margin-left: 3px;
           font-size: 12px;
         }
       }

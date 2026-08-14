@@ -29,7 +29,7 @@
     <!-- 文件列表 -->
     <transition-group class="upload-file-list el-upload-list el-upload-list--text" name="el-fade-in-linear" tag="ul">
       <li :key="file.url" class="el-upload-list__item ele-upload-list__item-content" v-for="(file, index) in fileList">
-        <el-link :href="`${baseUrl}${file.url}`" :underline="false" target="_blank">
+        <el-link :underline="false" @click="handleDownload(file)">
           <span class="el-icon-document"> {{ getFileName(file.name) }} </span>
         </el-link>
         <div class="ele-upload-list__item-content-action">
@@ -61,7 +61,7 @@ export default {
     // 文件类型, 例如['png', 'jpg', 'jpeg']
     fileType: {
       type: Array,
-      default: () => ["doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt", "pdf"]
+      default: () => ["doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt", "pdf", "dwg"]
     },
     // 是否显示提示
     isShowTip: {
@@ -78,7 +78,6 @@ export default {
     return {
       number: 0,
       uploadList: [],
-      baseUrl: process.env.VUE_APP_BASE_API,
       uploadFileUrl: process.env.VUE_APP_BASE_API + "/common/upload", // 上传文件服务器地址
       headers: {
         Authorization: "Bearer " + getToken(),
@@ -122,7 +121,7 @@ export default {
       // 校检文件类型
       if (this.fileType) {
         const fileName = file.name.split('.');
-        const fileExt = fileName[fileName.length - 1];
+        const fileExt = fileName[fileName.length - 1].toLowerCase();
         const isTypeOk = this.fileType.indexOf(fileExt) >= 0;
         if (!isTypeOk) {
           this.$modal.msgError(`文件格式不正确，请上传${this.fileType.join("/")}格式文件!`);
@@ -172,6 +171,10 @@ export default {
     handleDelete(index) {
       this.fileList.splice(index, 1);
       this.$emit("input", this.listToString(this.fileList));
+    },
+    // 使用受控下载接口获取附件，CAD 文件会作为附件保存到本地后使用专业软件查看
+    handleDownload(file) {
+      this.$download.resource(file.url);
     },
     // 上传结束处理
     uploadedSuccessfully() {

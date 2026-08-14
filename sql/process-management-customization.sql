@@ -33,12 +33,12 @@ INSERT IGNORE INTO sys_user_role (user_id, role_id) VALUES
 INSERT IGNORE INTO sys_role_menu (role_id, menu_id) VALUES
 (2, 2023), (2, 2024), (2, 2025), (2, 2026);
 
--- 仅保留流程所需的系统管理入口（用户、角色、部门、岗位）以及流程/任务菜单。
+-- 仅保留系统管理中的用户/角色、管理员使用的流程定义，以及所有用户使用的任务菜单。
 DROP TEMPORARY TABLE IF EXISTS obsolete_menu_ids;
 CREATE TEMPORARY TABLE obsolete_menu_ids (menu_id BIGINT PRIMARY KEY);
 INSERT IGNORE INTO obsolete_menu_ids (menu_id)
 WITH RECURSIVE obsolete_menu AS (
-    SELECT menu_id FROM sys_menu WHERE menu_id IN (2, 3, 4, 102, 105, 106, 107)
+    SELECT menu_id FROM sys_menu WHERE menu_id IN (2, 3, 4, 102, 103, 104, 105, 106, 107, 108, 2027, 2036, 2042)
     UNION ALL
     SELECT child.menu_id
     FROM sys_menu child
@@ -55,3 +55,6 @@ FROM sys_menu menu
 INNER JOIN obsolete_menu_ids obsolete ON obsolete.menu_id = menu.menu_id;
 
 DROP TEMPORARY TABLE obsolete_menu_ids;
+
+-- 流程管理仅供超级管理员使用，普通角色只保留任务管理权限。
+DELETE FROM sys_role_menu WHERE role_id <> 1 AND menu_id IN (2020, 2022);
