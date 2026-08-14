@@ -23,16 +23,16 @@ create table sys_dept (
 -- ----------------------------
 -- 初始化-部门表数据
 -- ----------------------------
-insert into sys_dept values(100,  0,   '0',          '若依科技',   0, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(101,  100, '0,100',      '深圳总公司', 1, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(102,  100, '0,100',      '长沙分公司', 2, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(103,  101, '0,100,101',  '研发部门',   1, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(104,  101, '0,100,101',  '市场部门',   2, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(105,  101, '0,100,101',  '测试部门',   3, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(106,  101, '0,100,101',  '财务部门',   4, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(107,  101, '0,100,101',  '运维部门',   5, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(108,  102, '0,100,102',  '市场部门',   1, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(109,  102, '0,100,102',  '财务部门',   2, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(100,  0,   '0',          '流程管理中心', 0, '系统管理员', '15888888888', 'workflow@example.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(101,  100, '0,100',      '管理职能部门', 1, '系统管理员', '15888888888', 'workflow@example.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(102,  100, '0,100',      '业务执行部门', 2, '系统管理员', '15888888888', 'workflow@example.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(103,  101, '0,100,101',  '技术部门',     1, '系统管理员', '15888888888', 'workflow@example.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(104,  101, '0,100,101',  '项目管理部',   2, '系统管理员', '15888888888', 'workflow@example.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(105,  101, '0,100,101',  '费控部',       3, '系统管理员', '15888888888', 'workflow@example.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(106,  101, '0,100,101',  '综合管理部',   4, '系统管理员', '15888888888', 'workflow@example.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(107,  101, '0,100,101',  '审批运营部',   5, '系统管理员', '15888888888', 'workflow@example.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(108,  102, '0,100,102',  '项目执行部',   1, '系统管理员', '15888888888', 'workflow@example.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(109,  102, '0,100,102',  '资料管理部',   2, '系统管理员', '15888888888', 'workflow@example.com', '0', '0', 'admin', sysdate(), '', null);
 
 
 -- ----------------------------
@@ -65,8 +65,15 @@ create table sys_user (
 -- ----------------------------
 -- 初始化-用户信息表数据
 -- ----------------------------
-insert into sys_user values(1,  103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '管理员');
-insert into sys_user values(2,  105, 'ry',    '若依', '00', 'ry@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '测试员');
+insert into sys_user values(1,  103, 'admin', '系统管理员', '00', 'admin@example.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '系统管理员');
+insert into sys_user values(2,  105, 'ry',    '流程测试员', '00', 'tester@example.com', '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '流程测试员');
+insert into sys_user values(110, 105, 'cost_director', '费控主任', '00', 'cost@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '流程办理账号');
+insert into sys_user values(111, 104, 'project_manager', '项目经理', '00', 'project@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '流程办理账号');
+insert into sys_user values(112, 106, 'department_manager', '部门经理', '00', 'department@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '流程办理账号');
+insert into sys_user values(113, 103, 'technical_leader', '技术部门负责人', '00', 'technical@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '流程办理账号');
+insert into sys_user values(114, 108, 'handler', '经办人', '00', 'handler@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '流程办理账号');
+insert into sys_user values(115, 107, 'liuqun', '刘群', '00', 'liuqun@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '抄送阅知账号');
+insert into sys_user values(116, 107, 'zhengxiangfeng', '郑向峰', '00', 'zhengxiangfeng@example.com', '', '0', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', null, 'admin', sysdate(), '', null, '抄送阅知账号');
 
 
 -- ----------------------------
@@ -275,6 +282,13 @@ create table sys_user_role (
 -- ----------------------------
 insert into sys_user_role values ('1', '1');
 insert into sys_user_role values ('2', '2');
+insert into sys_user_role values ('110', '2');
+insert into sys_user_role values ('111', '2');
+insert into sys_user_role values ('112', '2');
+insert into sys_user_role values ('113', '2');
+insert into sys_user_role values ('114', '2');
+insert into sys_user_role values ('115', '2');
+insert into sys_user_role values ('116', '2');
 
 
 -- ----------------------------
@@ -699,3 +713,17 @@ create table gen_table_column (
   update_time       datetime                                   comment '更新时间',
   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
+
+-- 精简非流程业务菜单。系统管理仅保留用户和角色；流程管理由后续脚本仅保留流程定义。
+DROP TEMPORARY TABLE IF EXISTS obsolete_menu_ids;
+CREATE TEMPORARY TABLE obsolete_menu_ids (menu_id BIGINT PRIMARY KEY);
+INSERT IGNORE INTO obsolete_menu_ids (menu_id)
+WITH RECURSIVE obsolete_menu AS (
+  SELECT menu_id FROM sys_menu WHERE menu_id IN (2, 3, 4, 102, 103, 104, 105, 106, 107, 108)
+  UNION ALL
+  SELECT child.menu_id FROM sys_menu child INNER JOIN obsolete_menu parent ON child.parent_id = parent.menu_id
+)
+SELECT menu_id FROM obsolete_menu;
+DELETE role_menu FROM sys_role_menu role_menu INNER JOIN obsolete_menu_ids obsolete ON obsolete.menu_id = role_menu.menu_id;
+DELETE menu FROM sys_menu menu INNER JOIN obsolete_menu_ids obsolete ON obsolete.menu_id = menu.menu_id;
+DROP TEMPORARY TABLE obsolete_menu_ids;

@@ -189,13 +189,29 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
         try {
             ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(procDefId)
                     .latestVersion().singleResult();
-            if (Objects.nonNull(processDefinition) && processDefinition.isSuspended()) {
+            if (Objects.isNull(processDefinition)) {
+                return AjaxResult.error("流程定义不存在，请刷新页面后重新选择流程");
+            }
+            if (processDefinition.isSuspended()) {
                 return AjaxResult.error("流程已被挂起,请先激活流程");
             }
             // 设置流程发起人Id到流程中
             SysUser sysUser = SecurityUtils.getLoginUser().getUser();
             identityService.setAuthenticatedUserId(sysUser.getUserId().toString());
             variables.put(ProcessConstants.PROCESS_INITIATOR, sysUser.getUserId());
+            // 历史动态表单使用 INITIATOR，内置 BPMN 使用 initiator；同时写入以兼容两种定义。
+            variables.put("initiator", sysUser.getUserId().toString());
+            // 预置审批流程使用固定业务账号，只校验当前流程实际需要的人员。
+            putUserIdIfAbsent(variables, "costControlDirectorUserId", "cost_director", "费控主任");
+            putUserIdIfAbsent(variables, "projectManagerUserId", "project_manager", "项目经理");
+            if ("internalManagementApproval".equals(processDefinition.getKey())) {
+                putUserIdIfAbsent(variables, "departmentManagerUserId", "department_manager", "部门经理");
+            } else if ("resourceRequestApproval".equals(processDefinition.getKey())) {
+                putUserIdIfAbsent(variables, "technicalDepartmentLeaderUserId", "technical_leader", "技术部门负责人");
+                putUserIdIfAbsent(variables, "handlerUserId", "handler", "经办人");
+            }
+            putUserIdIfAbsent(variables, "liuQunUserId", "liuqun", "刘群");
+            putUserIdIfAbsent(variables, "zhengXiangfengUserId", "zhengxiangfeng", "郑向峰");
 
             // 流程发起时 跳过发起人节点
             ProcessInstance processInstance = runtimeService.startProcessInstanceById(procDefId, variables);
@@ -207,9 +223,23 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
             }
             return AjaxResult.success("流程启动成功");
         } catch (Exception e) {
-            e.printStackTrace();
-            return AjaxResult.error("流程启动错误");
+            log.error("流程启动失败，流程定义ID：{}", procDefId, e);
+            return AjaxResult.error(e.getMessage() == null ? "流程启动错误" : e.getMessage());
         }
+    }
+
+    private void putUserIdIfAbsent(Map<String, Object> variables, String variableName, String userName, String displayName) {
+        if (variables.containsKey(variableName)) {
+            return;
+        }
+        SysUser user = sysUserService.selectUserByUserName(userName);
+        if (Objects.isNull(user)) {
+            throw new IllegalStateException("缺少“" + displayName + "”办理账号，请先执行数据库定制脚本或创建用户：" + userName);
+        }
+        if (!"0".equals(user.getStatus()) || !"0".equals(user.getDelFlag())) {
+            throw new IllegalStateException("“" + displayName + "”办理账号已停用，请启用用户：" + userName);
+        }
+        variables.put(variableName, user.getUserId().toString());
     }
 
 

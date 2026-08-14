@@ -53,12 +53,6 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="流程编号" align="center" prop="procInsId" :show-overflow-tooltip="true"/>
       <el-table-column label="流程名称" align="center" prop="procDefName" :show-overflow-tooltip="true"/>
-      <el-table-column label="流程类别" align="center" prop="category" width="100px" />
-      <el-table-column label="流程版本" align="center" width="80px">
-        <template slot-scope="scope">
-          <el-tag size="medium" >v{{ scope.row.procDefVersion }}</el-tag>
-        </template>
-      </el-table-column>
       <el-table-column label="提交时间" align="center" prop="createTime" width="180"/>
       <el-table-column label="流程状态" align="center" width="100">
         <template slot-scope="scope">
@@ -108,32 +102,16 @@
           <el-button icon="el-icon-refresh" size="mini" @click="resetProcessQuery">重置</el-button>
         </el-form-item>
       </el-form>
-      <el-table v-loading="processLoading" fit :data="definitionList" border >
-        <el-table-column label="流程名称" align="center" prop="name" />
-        <el-table-column label="流程版本" align="center">
-          <template slot-scope="scope">
-            <el-tag size="medium" >v{{ scope.row.version }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="流程分类" align="center" prop="category" />
-        <el-table-column label="操作" align="center" width="300" class-name="small-padding fixed-width">
-          <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-edit-outline"
-              @click="handleStartProcess(scope.row)"
-            >发起流程</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <pagination
-        v-show="processTotal>0"
-        :total="processTotal"
-        :page.sync="queryProcessParams.pageNum"
-        :limit.sync="queryProcessParams.pageSize"
-        @pagination="listDefinition"
-      />
+      <div v-loading="processLoading" class="process-options">
+        <button v-for="item in definitionList" :key="item.id" class="process-option" type="button" @click="handleStartProcess(item)">
+          <i :class="item.flowKey === 'resourceRequestApproval' ? 'el-icon-document' : 'el-icon-s-check'" />
+          <span>
+            <strong>{{ item.name }}</strong>
+            <small>{{ item.flowKey === 'resourceRequestApproval' ? '提资申请与资料流转审批' : '内部事项并行会签审批' }}</small>
+          </span>
+          <em>填写审批表 <i class="el-icon-right" /></em>
+        </button>
+      </div>
     </el-dialog>
 
   </div>
@@ -291,7 +269,9 @@ export default {
       this.$router.push({ path: '/flowable/task/myProcess/send/index',
         query: {
           deployId: row.deploymentId,
-          procDefId: row.id
+          procDefId: row.id,
+          processKey: row.flowKey,
+          processName: row.name
           }
       })
     },
@@ -375,3 +355,16 @@ export default {
 };
 </script>
 
+<style scoped lang="scss">
+.process-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; min-height: 170px; }
+.process-option { display: flex; align-items: center; min-height: 138px; padding: 26px; text-align: left; color: #222; background: #fafafa; border: 1px solid #ccc; cursor: pointer; transition: .2s ease; }
+.process-option > i { margin-right: 20px; font-size: 32px; }
+.process-option span { flex: 1; }
+.process-option strong, .process-option small { display: block; }
+.process-option strong { margin-bottom: 12px; font-size: 16px; }
+.process-option small { color: #888; }
+.process-option em { color: #666; font-size: 12px; font-style: normal; }
+.process-option:hover { color: #fff; background: #303030; border-color: #303030; transform: translateY(-2px); }
+.process-option:hover small, .process-option:hover em { color: #ccc; }
+@media (max-width: 768px) { .process-options { grid-template-columns: 1fr; } }
+</style>

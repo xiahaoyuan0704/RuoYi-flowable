@@ -4,6 +4,7 @@
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path, onlyOneChild.query)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
           <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
+          <span v-if="isTodoMenu(onlyOneChild) && todoCount > 0" class="todo-count-badge">{{ todoCount }}</span>
         </el-menu-item>
       </app-link>
     </template>
@@ -18,6 +19,7 @@
         :is-nest="true"
         :item="child"
         :base-path="resolvePath(child.path)"
+        :todo-count="todoCount"
         class="nest-menu"
       />
     </el-submenu>
@@ -48,6 +50,10 @@ export default {
     basePath: {
       type: String,
       default: ''
+    },
+    todoCount: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -55,9 +61,12 @@ export default {
     return {}
   },
   methods: {
+    isTodoMenu(route) {
+      return route && this.resolvePath(route.path) === '/task/todo'
+    },
     hasOneShowingChild(children = [], parent) {
       if (!children) {
-        children = [];
+        children = []
       }
       const showingChildren = children.filter(item => {
         if (item.hidden) {
@@ -89,7 +98,7 @@ export default {
         return this.basePath
       }
       if (routeQuery) {
-        let query = JSON.parse(routeQuery);
+        const query = JSON.parse(routeQuery)
         return { path: path.resolve(this.basePath, routePath), query: query }
       }
       return path.resolve(this.basePath, routePath)
@@ -97,3 +106,22 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.todo-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  margin-left: 8px;
+  padding: 0 5px;
+  color: #fff;
+  background: #e53935;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  vertical-align: middle;
+}
+</style>

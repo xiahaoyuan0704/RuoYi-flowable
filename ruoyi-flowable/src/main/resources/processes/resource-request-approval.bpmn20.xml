@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:flowable="http://flowable.org/bpmn"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI" targetNamespace="http://ruoyi.vip/flowable">
+  <process id="resourceRequestApproval" name="电网项目管理部提资流程审批表" isExecutable="true">
+    <documentation>提资人提交并经技术部门负责人审批后，费控主任和项目经理并行办理；费控主任分支继续转经办人，两个分支完成后抄送刘群和郑向峰。</documentation>
+    <startEvent id="start" name="开始"/>
+    <userTask id="requesterSubmit" name="提资人" flowable:assignee="${initiator}" flowable:userType="assignee"/>
+    <userTask id="technicalDepartmentLeader" name="技术部门负责人" flowable:assignee="${technicalDepartmentLeaderUserId}" flowable:userType="assignee"/>
+    <parallelGateway id="approvalFork" name="并行办理"/>
+    <userTask id="costControlDirector" name="费控主任" flowable:assignee="${costControlDirectorUserId}" flowable:userType="assignee"/>
+    <userTask id="projectManager" name="项目经理" flowable:assignee="${projectManagerUserId}" flowable:userType="assignee"/>
+    <userTask id="handler" name="转经办人" flowable:assignee="${handlerUserId}" flowable:userType="assignee"/>
+    <parallelGateway id="approvalJoin" name="并行分支完成"/>
+    <parallelGateway id="copyFork" name="并行抄送"/>
+    <userTask id="copyToLiuQun" name="抄送刘群（阅知）" flowable:assignee="${liuQunUserId}" flowable:userType="assignee"/>
+    <userTask id="copyToZhengXiangfeng" name="抄送郑向峰（阅知）" flowable:assignee="${zhengXiangfengUserId}" flowable:userType="assignee"/>
+    <parallelGateway id="copyJoin"/>
+    <endEvent id="end" name="结束"/>
+    <sequenceFlow id="f1" sourceRef="start" targetRef="requesterSubmit"/>
+    <sequenceFlow id="f2" sourceRef="requesterSubmit" targetRef="technicalDepartmentLeader"/>
+    <sequenceFlow id="f3" sourceRef="technicalDepartmentLeader" targetRef="approvalFork"/>
+    <sequenceFlow id="f4" sourceRef="approvalFork" targetRef="costControlDirector"/>
+    <sequenceFlow id="f5" sourceRef="approvalFork" targetRef="projectManager"/>
+    <sequenceFlow id="f6" sourceRef="costControlDirector" targetRef="handler"/>
+    <sequenceFlow id="f7" sourceRef="handler" targetRef="approvalJoin"/>
+    <sequenceFlow id="f8" sourceRef="projectManager" targetRef="approvalJoin"/>
+    <sequenceFlow id="f9" sourceRef="approvalJoin" targetRef="copyFork"/>
+    <sequenceFlow id="f10" sourceRef="copyFork" targetRef="copyToLiuQun"/>
+    <sequenceFlow id="f11" sourceRef="copyFork" targetRef="copyToZhengXiangfeng"/>
+    <sequenceFlow id="f12" sourceRef="copyToLiuQun" targetRef="copyJoin"/>
+    <sequenceFlow id="f13" sourceRef="copyToZhengXiangfeng" targetRef="copyJoin"/>
+    <sequenceFlow id="f14" sourceRef="copyJoin" targetRef="end"/>
+  </process>
+  <bpmndi:BPMNDiagram id="diagram_resource"><bpmndi:BPMNPlane id="plane_resource" bpmnElement="resourceRequestApproval">
+    <bpmndi:BPMNShape id="start_di" bpmnElement="start"><dc:Bounds x="80" y="222" width="36" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="requester_di" bpmnElement="requesterSubmit"><dc:Bounds x="150" y="200" width="100" height="80"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="tech_di" bpmnElement="technicalDepartmentLeader"><dc:Bounds x="290" y="200" width="130" height="80"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="fork_di" bpmnElement="approvalFork"><dc:Bounds x="460" y="215" width="50" height="50"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="cost_di" bpmnElement="costControlDirector"><dc:Bounds x="560" y="100" width="110" height="80"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="project_di" bpmnElement="projectManager"><dc:Bounds x="690" y="300" width="110" height="80"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="handler_di" bpmnElement="handler"><dc:Bounds x="720" y="100" width="110" height="80"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="join_di" bpmnElement="approvalJoin"><dc:Bounds x="880" y="215" width="50" height="50"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="copyfork_di" bpmnElement="copyFork"><dc:Bounds x="970" y="215" width="50" height="50"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="liu_di" bpmnElement="copyToLiuQun"><dc:Bounds x="1060" y="130" width="130" height="80"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="zheng_di" bpmnElement="copyToZhengXiangfeng"><dc:Bounds x="1060" y="270" width="130" height="80"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="copyjoin_di" bpmnElement="copyJoin"><dc:Bounds x="1230" y="215" width="50" height="50"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="end_di" bpmnElement="end"><dc:Bounds x="1320" y="222" width="36" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="f1_di" bpmnElement="f1"><di:waypoint x="116" y="240"/><di:waypoint x="150" y="240"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f2_di" bpmnElement="f2"><di:waypoint x="250" y="240"/><di:waypoint x="290" y="240"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f3_di" bpmnElement="f3"><di:waypoint x="420" y="240"/><di:waypoint x="460" y="240"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f4_di" bpmnElement="f4"><di:waypoint x="485" y="215"/><di:waypoint x="485" y="140"/><di:waypoint x="560" y="140"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f5_di" bpmnElement="f5"><di:waypoint x="485" y="265"/><di:waypoint x="485" y="340"/><di:waypoint x="690" y="340"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f6_di" bpmnElement="f6"><di:waypoint x="670" y="140"/><di:waypoint x="720" y="140"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f7_di" bpmnElement="f7"><di:waypoint x="830" y="140"/><di:waypoint x="905" y="140"/><di:waypoint x="905" y="215"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f8_di" bpmnElement="f8"><di:waypoint x="800" y="340"/><di:waypoint x="905" y="340"/><di:waypoint x="905" y="265"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f9_di" bpmnElement="f9"><di:waypoint x="930" y="240"/><di:waypoint x="970" y="240"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f10_di" bpmnElement="f10"><di:waypoint x="995" y="215"/><di:waypoint x="995" y="170"/><di:waypoint x="1060" y="170"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f11_di" bpmnElement="f11"><di:waypoint x="995" y="265"/><di:waypoint x="995" y="310"/><di:waypoint x="1060" y="310"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f12_di" bpmnElement="f12"><di:waypoint x="1190" y="170"/><di:waypoint x="1255" y="170"/><di:waypoint x="1255" y="215"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f13_di" bpmnElement="f13"><di:waypoint x="1190" y="310"/><di:waypoint x="1255" y="310"/><di:waypoint x="1255" y="265"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f14_di" bpmnElement="f14"><di:waypoint x="1280" y="240"/><di:waypoint x="1320" y="240"/></bpmndi:BPMNEdge>
+  </bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
+</definitions>

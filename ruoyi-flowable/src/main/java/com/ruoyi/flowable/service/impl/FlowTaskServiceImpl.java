@@ -817,13 +817,12 @@ public class FlowTaskServiceImpl extends FlowServiceFactory implements IFlowTask
             }
             map.put("flowList", hisFlowList);
         }
-        // 第一次申请获取初始化表单
+        // 动态表单流程返回部署表单；内置审批流程直接使用流程变量展示审批内容，允许未绑定部署表单。
         if (StringUtils.isNotBlank(deployId)) {
             SysForm sysForm = sysInstanceFormService.selectSysDeployFormByDeployId(deployId);
-            if (Objects.isNull(sysForm)) {
-                return AjaxResult.error("请先配置流程表单");
+            if (Objects.nonNull(sysForm)) {
+                map.put("formData", JSONObject.parseObject(sysForm.getFormContent()));
             }
-            map.put("formData", JSONObject.parseObject(sysForm.getFormContent()));
         }
         return AjaxResult.success(map);
     }
@@ -1114,8 +1113,22 @@ public class FlowTaskServiceImpl extends FlowServiceFactory implements IFlowTask
             parameters = taskService.getVariables(taskId);
         }
         JSONObject oldVariables = JSONObject.parseObject(JSON.toJSONString(parameters.get("formJson")));
+        if (Objects.isNull(oldVariables)) {
+            oldVariables = new JSONObject();
+            oldVariables.put("widgetList", new ArrayList<>());
+            JSONObject formConfig = new JSONObject();
+            formConfig.put("modelName", "formData");
+            formConfig.put("refName", "vForm");
+            formConfig.put("rulesName", "rules");
+            formConfig.put("labelPosition", "left");
+            formConfig.put("labelWidth", 100);
+            oldVariables.put("formConfig", formConfig);
+        }
         List<JSONObject> oldFields = JSON.parseObject(JSON.toJSONString(oldVariables.get("widgetList")), new TypeReference<List<JSONObject>>() {
         });
+        if (Objects.isNull(oldFields)) {
+            oldFields = new ArrayList<>();
+        }
         // 设置已填写的表单为禁用状态
         for (JSONObject oldField : oldFields) {
             JSONObject options = oldField.getJSONObject("options");

@@ -56,7 +56,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2025 ruoyi.vip All Rights Reserved.</span>
+      <span>流程管理系统 · 内部管理平台</span>
     </div>
   </div>
 </template>
@@ -73,8 +73,8 @@ export default {
       title: process.env.VUE_APP_TITLE,
       codeUrl: "",
       loginForm: {
-        username: "tony",
-        password: "123456",
+        username: "admin",
+        password: "admin123",
         rememberMe: false,
         code: "",
         uuid: ""
@@ -162,8 +162,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.jpg");
-  background-size: cover;
+  background: linear-gradient(135deg, #111111 0%, #3a3a3a 52%, #d8d8d8 100%);
 }
 .title {
   margin: 0px auto 30px auto;
@@ -176,6 +175,8 @@ export default {
   background: #ffffff;
   width: 400px;
   padding: 25px 25px 5px 25px;
+  border: 1px solid #d1d1d1;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .28);
   .el-input {
     height: 38px;
     input {
