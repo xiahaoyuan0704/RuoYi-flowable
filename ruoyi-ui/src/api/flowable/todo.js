@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import da from "element-ui/src/locale/lang/da";
 
 // 查询待办任务列表
 export function todoList(query) {
@@ -77,7 +76,7 @@ export function getNextFlowNodeByStart(data) {
 export function deployStart(deployId) {
   return request({
     url: '/flowable/process/startFlow/' + deployId,
-    method: 'get',
+    method: 'get'
   })
 }
 
